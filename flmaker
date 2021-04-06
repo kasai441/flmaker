@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'pathname'
+
+case ARGV.size
+when 3
+  path = Pathname(ARGV[0])
+  basis = ARGV[1]
+  num = ARGV[2]
+when 2
+  path = Pathname('./')
+  basis = ARGV[0]
+  num = ARGV[1]
+when 1
+  path = Pathname('./')
+  basis = ''
+  num = ARGV[0]
+else
+  puts '引数エラー： 引数 (1: 出力パス, 2: ファイル名, 3: 繰り返し数) or (1: ファイル名, 2: 繰り返し数) or (1: 繰り返し数)'
+  return
+end
+
+begin
+  num.to_i.times do |i|
+    File.open(path.join(basis + i.to_s), 'w')
+  end
+rescue StandardError => e
+  logger.error(e)
+end
